@@ -12,8 +12,8 @@ const ChatMessageActions: React.VFC<ChatMessageActionsProps> = ({ message, class
   const [, setReplyingTo] = useContext(ReplyContext)
 
   return (
-    <ButtonGroup className={`absolute -top-3 right-2 float-right ${className}`}>
-      <Button icon="undo" onClick={() => setReplyingTo(message)} />
+    <ButtonGroup className={`absolute -top-3 right-2 float-right z-20 ${className}`}>
+      <Button icon="undo" onClick={() => setReplyingTo(message)} className="z-20" />
     </ButtonGroup>
   )
 }

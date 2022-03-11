@@ -3,7 +3,7 @@ import React from 'react'
 import { ServerMessage } from '../server/types'
 import styles from '../styles/chatmessage.module.scss'
 import utilStyles from '../styles/util.module.scss'
-import { useMessages } from '../util/context'
+import { useMessages, useWebsocket } from '../util/context'
 import { getLocale, truncate } from '../util/util'
 import ChatMessageActions from './ChatMessageActions'
 import UserCard from './UserCard'
@@ -13,25 +13,38 @@ interface ChatMessageProps {
 }
 
 const ChatMessage: React.VFC<ChatMessageProps> = ({ message }) => {
+  const { user } = useWebsocket()
   const time = new Date(message.createdAt)
   const formattedTime = time.toLocaleString(getLocale(), {})
   const [messages] = useMessages()
 
   const parent = message.parentId ? messages.find((m) => m.id === message.parentId) : undefined
+  const isParentAuthor = parent?.author.id === user?.id
 
   return (
-    <div className={`relative flex flex-col hover:backdrop-brightness-125 ${styles.message}`}>
+    <div
+      className={`relative flex flex-col hover:backdrop-brightness-125 ${styles.message} ${
+        isParentAuthor ? 'border-l-[3px] border-l-gold-3' : ''
+      }`}
+    >
+      {isParentAuthor && <div className="absolute inset-0 z-0 opacity-20 bg-gold-3" />}
       <ChatMessageActions message={message} className={styles.actions} />
       {message.parentId &&
         (!parent ? (
-          <div className="flex">
-            <div className="w-[32px]" />
+          <div className="z-10 flex">
+            <div className={isParentAuthor ? 'w-[29px]' : 'w-[32px]'} />
             <span className="italic">Message could not be loaded.</span>
           </div>
         ) : (
-          <div className={`relative flex items-center text-xs font-light ${styles.replyContext}`}>
-            <div className="w-[64px]" />
-            <div className={styles.replyIndicator} />
+          <div
+            className={`relative z-10 flex items-center text-xs font-light ${styles.replyContext}`}
+          >
+            <div className={isParentAuthor ? 'w-[61px]' : 'w-[64px]'} />
+            <div
+              className={`${styles.replyIndicator} ${
+                isParentAuthor ? 'left-[30px]' : 'left-[32px]'
+              }`}
+            />
             <Image
               src={parent.author.avatarUrl ?? '/img/avatar.png'}
               width={16}
@@ -45,7 +58,7 @@ const ChatMessage: React.VFC<ChatMessageProps> = ({ message }) => {
             </span>
           </div>
         ))}
-      <div className="flex px-4 py-px">
+      <div className={`z-10 flex py-px pr-4 ${isParentAuthor ? 'pl-[13px]' : 'pl-[16px]'}`}>
         <div className="flex items-center justify-center">
           <UserCard
             user={message.author}
@@ -62,7 +75,7 @@ const ChatMessage: React.VFC<ChatMessageProps> = ({ message }) => {
             )}
           />
         </div>
-        <div className="flex flex-col justify-between ml-3">
+        <div className="z-10 flex flex-col justify-between ml-3">
           <div className="flex items-baseline">
             <UserCard
               user={message.author}

@@ -35,7 +35,7 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
     FocusStyleManager.onlyShowFocusOnTabs()
 
     const ws = new WebSocket(
-      `wss://${process.env.NEXT_PUBLIC_API_HOSTNAME}:${process.env.NEXT_PUBLIC_API_PORT}/ws`
+      `ws://${process.env.NEXT_PUBLIC_API_HOSTNAME}:${process.env.NEXT_PUBLIC_API_PORT}/ws`
     )
 
     const onOpen = (): void => {
