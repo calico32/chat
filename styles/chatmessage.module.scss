@@ -1,0 +1,42 @@
+@import '~@blueprintjs/core/lib/scss/variables.scss';
+
+.message,
+.simple {
+  & .actions {
+    visibility: hidden;
+  }
+
+  &:hover .actions {
+    visibility: visible;
+  }
+}
+
+.simple {
+  & .timestamp {
+    visibility: hidden;
+  }
+
+  &:hover .timestamp {
+    visibility: visible;
+  }
+}
+
+.replyContext {
+  cursor: pointer;
+
+  .replyIndicator {
+    left: 32px;
+    margin-right: 4px;
+    width: 28px;
+    top: 50%;
+    bottom: 0;
+    position: absolute;
+    border-left: 1.5px solid $gray3;
+    border-top: 1.5px solid $gray3;
+    border-top-left-radius: 6px;
+  }
+
+  &:hover .replyContent {
+    color: white;
+  }
+}

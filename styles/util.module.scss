@@ -1,0 +1,19 @@
+@import '~@blueprintjs/core/lib/scss/variables';
+
+$action-bar-height: 30px;
+
+.muted {
+  color: $pt-text-color-muted;
+}
+
+.loading {
+  height: calc(100vh - $pt-navbar-height);
+}
+
+.nonIdealState {
+  height: calc(100vh - $pt-navbar-height - $action-bar-height);
+}
+
+.avatarContainer > span {
+  display: block !important;
+}
