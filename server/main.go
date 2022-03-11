@@ -36,6 +36,10 @@ func main() {
 		log.Fatal("$API_PORT not set")
 	}
 
+	if os.Getenv("API_SERVE_PORT") == "" {
+		log.Fatal("$API_SERVE_PORT not set")
+	}
+
 	if os.Getenv("ADMINS") == "" {
 		log.Println("WARNING: $ADMINS not set")
 	} else {
@@ -80,8 +84,8 @@ func main() {
 	r.GET("/p/:from", cors, NewGetPrivateMessageRecipients(ctx, db))
 	r.GET("/p/:from/:to", cors, NewGetPrivateMessages(ctx, db))
 	r.GET("/ws", cors, NewWebsocketHandler(ctx, db, &upgrader))
-	log.Println("Listening on port " + os.Getenv("API_PORT"))
-	log.Fatal(r.Run(":" + os.Getenv("API_PORT")))
+	log.Println("Listening on port " + os.Getenv("API_SERVE_PORT"))
+	log.Fatal(r.Run(":" + os.Getenv("API_SERVE_PORT")))
 }
 
 func cors(c *gin.Context) {

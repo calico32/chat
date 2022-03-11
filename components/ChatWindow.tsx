@@ -41,7 +41,7 @@ const ChatWindow: React.VFC = () => {
 
     const fetchMessages = async (): Promise<void> => {
       const res = await fetch(
-        `https://${process.env.API_HOSTNAME}:${process.env.API_PORT}/c/public`
+        `https://${process.env.NEXT_PUBLIC_API_HOSTNAME}:${process.env.NEXT_PUBLIC_API_PORT}/c/public`
       )
       const json = await res.json()
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
